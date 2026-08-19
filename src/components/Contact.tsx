@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Reveal from "./Reveal";
 
 const WEB3FORMS_ACCESS_KEY = "2a85620e-d829-4d90-92c7-b302605c92ee";
 
@@ -46,7 +47,7 @@ const Contact = () => {
   return (
     <section id="contact" className="py-24 px-6 max-w-3xl mx-auto border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white transition-colors duration-300">
       {/* Header */}
-      <div className="text-center space-y-4 mb-12">
+      <Reveal className="text-center space-y-4 mb-12">
         <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
           Let&apos;s Connect
         </span>
@@ -56,98 +57,107 @@ const Contact = () => {
         <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto text-sm sm:text-base">
           Feel free to reach out if you want to collaborate, have a question, or just want to connect.
         </p>
-      </div>
+      </Reveal>
 
       {/* Form */}
-      <form
-        ref={form}
-        onSubmit={sendEmail}
-        className="space-y-6 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md"
-      >
-        {/* Web3Forms access key - routes every submission to tharanganikavi08@gmail.com */}
-        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-        <input type="hidden" name="from_name" value="Kavi Portfolio Contact Form" />
-        {/* Honeypot spam-trap field: kept hidden from real users, bots tend to fill it in */}
-        <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
-
-        {/* Name */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-            Your Name
-          </label>
-          <input
-            type="text"
-            placeholder="Your Name"
-            name="name"
-            required
-            className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
-          />
-        </div>
-
-        {/* Email */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-            Your Email
-          </label>
-          <input
-            type="email"
-            placeholder="Your Email"
-            name="email"
-            required
-            className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
-          />
-        </div>
-
-        {/* Subject */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-            Subject
-          </label>
-          <input
-            type="text"
-            placeholder="Subject"
-            name="subject"
-            required
-            className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
-          />
-        </div>
-
-        {/* Message */}
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
-            Your Message
-          </label>
-          <textarea
-            placeholder="Your Message"
-            name="message"
-            rows={5}
-            required
-            className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition resize-none"
-          ></textarea>
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white rounded-xl font-semibold transition shadow-[0_0_20px_rgba(99,102,241,0.3)] cursor-pointer"
+      <Reveal delay={150}>
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="space-y-6 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md"
         >
-          {loading ? "Sending..." : "Send Message"}
-        </button>
+          {/* Web3Forms access key - routes every submission to tharanganikavi08@gmail.com */}
+          <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+          <input type="hidden" name="from_name" value="Kavi Portfolio Contact Form" />
+          {/* Honeypot spam-trap field: kept hidden from real users, bots tend to fill it in */}
+          <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
-        {/* Status Notification */}
-        {statusMessage && (
-          <p
-            className={`text-center text-sm mt-4 ${
-              statusMessage.includes("successfully")
-                ? "text-emerald-400"
-                : "text-rose-400"
-            }`}
+          {/* Name */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+              Your Name
+            </label>
+            <input
+              type="text"
+              placeholder="Your Name"
+              name="name"
+              required
+              className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+              Your Email
+            </label>
+            <input
+              type="email"
+              placeholder="Your Email"
+              name="email"
+              required
+              className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            />
+          </div>
+
+          {/* Subject */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+              Subject
+            </label>
+            <input
+              type="text"
+              placeholder="Subject"
+              name="subject"
+              required
+              className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
+            />
+          </div>
+
+          {/* Message */}
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+              Your Message
+            </label>
+            <textarea
+              placeholder="Your Message"
+              name="message"
+              rows={5}
+              required
+              className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition resize-none"
+            ></textarea>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white rounded-xl font-semibold transition duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:hover:scale-100"
           >
-            {statusMessage}
-          </p>
-        )}
-      </form>
+            {loading ? (
+              <span className="inline-flex items-center justify-center gap-2">
+                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Sending...
+              </span>
+            ) : (
+              "Send Message"
+            )}
+          </button>
+
+          {/* Status Notification */}
+          {statusMessage && (
+            <p
+              className={`text-center text-sm mt-4 animate-fade-in-up ${
+                statusMessage.includes("successfully")
+                  ? "text-emerald-400"
+                  : "text-rose-400"
+              }`}
+            >
+              {statusMessage}
+            </p>
+          )}
+        </form>
+      </Reveal>
     </section>
   );
 };

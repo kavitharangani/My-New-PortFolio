@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "./Reveal";
 
 interface GalleryItem {
   id: number;
@@ -71,12 +72,12 @@ export default function Gallery() {
     <section id="gallery" className="py-24 px-6 max-w-6xl mx-auto text-slate-900 dark:text-white border-t border-slate-200 dark:border-slate-800/80 relative transition-colors duration-300">
 
       {/* Background Soft Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] pointer-events-none rounded-full animate-blob" />
 
       <div className="space-y-12 relative z-10">
 
         {/* Header Section */}
-        <div className="space-y-4">
+        <Reveal className="space-y-4">
           <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
             Life & Milestones
           </span>
@@ -86,10 +87,10 @@ export default function Gallery() {
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-base sm:text-lg">
             A glance at my personal moments, family, friends, achievements, and tech journey.
           </p>
-        </div>
+        </Reveal>
 
         {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 sm:gap-3">
+        <Reveal delay={100} className="flex flex-wrap gap-2 sm:gap-3">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -103,39 +104,40 @@ export default function Gallery() {
               {cat}
             </button>
           ))}
-        </div>
+        </Reveal>
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setActiveImage(item)}
-              className="group relative bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden cursor-pointer hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl"
-            >
-              {/* Image Container */}
-              <div className="aspect-[4/3] w-full overflow-hidden bg-slate-200 dark:bg-slate-950 relative">
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
-              </div>
+          {filteredItems.map((item, idx) => (
+            <Reveal key={item.id} delay={(idx % 6) * 80}>
+              <div
+                onClick={() => setActiveImage(item)}
+                className="group relative bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden cursor-pointer hover:border-indigo-500/50 transition-all duration-300 hover:-translate-y-1.5 shadow-xl"
+              >
+                {/* Image Container */}
+                <div className="aspect-[4/3] w-full overflow-hidden bg-slate-200 dark:bg-slate-950 relative">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />
+                </div>
 
-              {/* Text Overlay Details */}
-              <div className="p-5 space-y-1.5 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
-                <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
-                  {item.category}
-                </span>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors line-clamp-1">
-                  {item.title}
-                </h3>
-                <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2 leading-relaxed">
-                  {item.description}
-                </p>
+                {/* Text Overlay Details */}
+                <div className="p-5 space-y-1.5 bg-slate-100/80 dark:bg-slate-900/80 backdrop-blur-md">
+                  <span className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+                    {item.category}
+                  </span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors line-clamp-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
@@ -144,17 +146,17 @@ export default function Gallery() {
       {/* Lightbox Modal (Click to View Full Image) */}
       {activeImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-overlay-in"
           onClick={() => setActiveImage(null)}
         >
           <div
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative animate-modal-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setActiveImage(null)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-950/70 text-slate-300 hover:text-white rounded-full border border-slate-700/60 flex items-center justify-center transition-all"
+              className="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-950/70 text-slate-300 hover:text-white rounded-full border border-slate-700/60 flex items-center justify-center transition-all hover:scale-110 active:scale-90"
             >
               ✕
             </button>

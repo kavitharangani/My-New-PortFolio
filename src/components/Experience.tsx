@@ -1,3 +1,5 @@
+import Reveal from "./Reveal";
+
 export default function Experience() {
   const experiences = [
     {
@@ -23,7 +25,7 @@ export default function Experience() {
       <div className="space-y-12">
 
         {/* Header Section */}
-        <div className="space-y-3">
+        <Reveal className="space-y-3">
           <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
             Career Journey
           </span>
@@ -33,12 +35,12 @@ export default function Experience() {
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl text-base sm:text-lg">
             A showcase of my hands-on industry experience, roles, and technical contributions.
           </p>
-        </div>
+        </Reveal>
 
         {/* Work Experience Timeline Section */}
         <div className="relative border-l-2 border-slate-200 dark:border-slate-800/80 ml-3 sm:ml-6 pl-6 sm:pl-10 space-y-10">
           {experiences.map((exp, idx) => (
-            <div key={idx} className="relative group">
+            <Reveal key={idx} delay={idx * 120} className="relative group">
 
               {/* Glowing Timeline Dot */}
               <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-950 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.6)]" />
@@ -101,7 +103,7 @@ export default function Experience() {
                 </div>
 
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
