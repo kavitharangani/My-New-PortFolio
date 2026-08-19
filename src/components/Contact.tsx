@@ -1,42 +1,47 @@
 "use client";
 
-import { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import { useRef, useState } from "react";
+
+const WEB3FORMS_ACCESS_KEY = "2a85620e-d829-4d90-92c7-b302605c92ee";
 
 const Contact = () => {
   const form = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
 
-  const sendEmail = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const sendEmail = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.current) return;
     setLoading(true);
     setStatusMessage("");
 
-    emailjs
-      .sendForm(
-        'service_2lt4o4u',
-        'template_mticf4a',
-        form.current,
-        'Rz2-mwEM6mOY6JXtJ'
-      )
-      .then(
-        (result) => {
-          console.log('SUCCESS!', result.text);
-          setStatusMessage("Message sent successfully! I'll get back to you soon.");
-          setLoading(false);
-          form.current?.reset();
-        },
-        (error) => {
-          console.log('FAILED...', error.text);
-          setStatusMessage("Failed to send message. Please try again later.");
-          setLoading(false);
-        }
-      );
-  };
+    const formData = new FormData(form.current);
 
-  
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatusMessage("Message sent successfully! I'll get back to you soon.");
+        form.current?.reset();
+      } else {
+        console.log("FAILED...", result);
+        setStatusMessage("Failed to send message. Please try again later.");
+      }
+    } catch (error) {
+      console.log("FAILED...", error);
+      setStatusMessage("Failed to send message. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-24 px-6 max-w-3xl mx-auto border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white transition-colors duration-300">
@@ -59,8 +64,11 @@ const Contact = () => {
         onSubmit={sendEmail}
         className="space-y-6 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md"
       >
-        {/* Recipient (fixed - all messages are delivered to this inbox) */}
-        <input type="hidden" name="to_email" value="tharanganikavi08@gmail.com" />
+        {/* Web3Forms access key - routes every submission to tharanganikavi08@gmail.com */}
+        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        <input type="hidden" name="from_name" value="Kavi Portfolio Contact Form" />
+        {/* Honeypot spam-trap field: kept hidden from real users, bots tend to fill it in */}
+        <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
         {/* Name */}
         <div className="space-y-2">
@@ -70,7 +78,7 @@ const Contact = () => {
           <input
             type="text"
             placeholder="Your Name"
-            name="user_name"
+            name="name"
             required
             className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
           />
@@ -84,7 +92,7 @@ const Contact = () => {
           <input
             type="email"
             placeholder="Your Email"
-            name="user_email"
+            name="email"
             required
             className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"
           />
