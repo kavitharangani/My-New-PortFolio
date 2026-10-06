@@ -5,6 +5,16 @@ import { useState } from "react";
 import Reveal from "./Reveal";
 import DNACarousel from "./DNACarousel";
 
+import convocation1 from "../image/gallery/convocation1.jpg";
+import convocation2 from "../image/gallery/convocation2.jpg";
+import convocation3 from "../image/gallery/convocation3.jpg";
+import convocation4 from "../image/gallery/convocation4.jpg";
+import convocation5 from "../image/gallery/convocation5.jpg";
+import convocation6 from "../image/gallery/convocation6.jpg";
+import convocation7 from "../image/gallery/convocation7.jpg";
+import convocation8 from "../image/gallery/convocation8.jpg";
+import convocation9 from "../image/gallery/convocation9.jpg";
+import convocation10 from "../image/gallery/convocation10.jpg";
 import personal1 from "../image/gallery/personal1.jpg";
 import personal2 from "../image/gallery/personal2.jpg";
 import personal3 from "../image/gallery/personal3.jpg";
@@ -24,7 +34,7 @@ import friend3 from "../image/gallery/friend3.jpg";
 import friend4 from "../image/gallery/friend4.jpg";
 import event1 from "../image/gallery/event1.jpg";
 
-type Category = "Personal" | "Family" | "Friends" | "Events";
+type Category = "Convocation" | "Personal" | "Family" | "Friends" | "Events";
 
 interface GalleryItem {
   id: number;
@@ -36,6 +46,16 @@ interface GalleryItem {
 
 // To add a photo: put a resized copy in src/image/gallery/, import it above and add a row here.
 const galleryItems: GalleryItem[] = [
+  { image: convocation1, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation2, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation3, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation4, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation5, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation6, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation7, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation8, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation9, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
+  { image: convocation10, category: "Convocation", title: "Convocation Day", description: "Celebrating my graduation, a proud milestone in my journey." },
   { image: personal1, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
   { image: personal2, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
   { image: personal3, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
