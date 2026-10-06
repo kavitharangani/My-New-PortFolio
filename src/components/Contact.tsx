@@ -295,8 +295,8 @@ const Contact = () => {
               exit={{ opacity: 0, y: -10 }}
               className={`text-center text-sm mt-4 ${
                 statusMessage.includes("successfully")
-                  ? "text-emerald-400"
-                  : "text-rose-400"
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-rose-600 dark:text-rose-400"
               }`}
             >
               {statusMessage}
