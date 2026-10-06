@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion, useInView, type Variants } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import heroImg from '../image/hero-optimized.jpg';
+import HeroWeather from './HeroWeather';
 
 const container: Variants = {
   hidden: {},
@@ -70,7 +71,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-screen max-w-6xl mx-auto px-6 text-slate-900 dark:text-white flex flex-col md:flex-row items-center justify-center gap-12 pt-16 transition-colors duration-300 overflow-hidden"
+      className="relative min-h-screen max-w-6xl mx-auto px-6 text-slate-900 dark:text-white flex flex-col md:flex-row items-center justify-center gap-12 pt-16 transition-colors duration-300"
     >
       {/* Decorative animated glow blobs */}
       <motion.div
@@ -85,6 +86,9 @@ export default function Hero() {
         animate={{ scale: [1, 1.25, 1], x: [0, -25, 0], y: [0, 15, 0], opacity: [0.45, 0.75, 0.45] }}
         transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
+
+      {/* Snow + lightning background */}
+      <HeroWeather active={show} />
 
       {/* Left Content: staggered entrance */}
       <motion.div
