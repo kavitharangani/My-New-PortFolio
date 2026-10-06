@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import aboutImg from "../image/about.jpg";
+import aboutImg from "../image/about-optimized.jpg";
+import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 export default function About() {
@@ -18,14 +21,19 @@ export default function About() {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
           {/* Profile Image */}
           <Reveal delay={100} className="shrink-0">
-            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-2xl bg-slate-200 dark:bg-slate-800 border-2 border-indigo-500/30 flex items-center justify-center overflow-hidden relative shadow-2xl shadow-indigo-500/10 transition-transform duration-500 hover:scale-[1.03]">
+            <motion.div
+              className="w-48 h-48 sm:w-64 sm:h-64 rounded-2xl bg-slate-200 dark:bg-slate-800 border-2 border-indigo-500/30 flex items-center justify-center overflow-hidden relative shadow-2xl shadow-indigo-500/10"
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            >
               <Image
                 src={aboutImg}
                 alt="Kavindya Tharangani"
                 fill
                 className="object-cover"
+                sizes="(min-width: 640px) 256px, 192px"
               />
-            </div>
+            </motion.div>
           </Reveal>
 
           {/* Detailed Paragraphs */}
@@ -53,13 +61,22 @@ export default function About() {
 
               {/* Download CV Button */}
               <div className="pt-4">
-                <a
+                <motion.a
                   href="/cv.pdf"
                   download="Kavindya_Tharangani_CV.pdf"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition duration-300 shadow-lg shadow-indigo-600/20 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium transition-colors duration-300 shadow-lg shadow-indigo-600/20"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Download CV
-                </a>
+                  <motion.span
+                    aria-hidden="true"
+                    animate={{ y: [0, 3, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    ↓
+                  </motion.span>
+                </motion.a>
               </div>
             </div>
           </Reveal>

@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 export default function Experience() {
@@ -38,15 +41,35 @@ export default function Experience() {
         </Reveal>
 
         {/* Work Experience Timeline Section */}
-        <div className="relative border-l-2 border-slate-200 dark:border-slate-800/80 ml-3 sm:ml-6 pl-6 sm:pl-10 space-y-10">
+        <div className="relative ml-3 sm:ml-6 pl-6 sm:pl-10 space-y-10">
+          {/* Timeline line that draws itself in on scroll */}
+          <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-slate-200 dark:bg-slate-800/80" aria-hidden="true" />
+          <motion.div
+            className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500 to-purple-500 origin-top"
+            aria-hidden="true"
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          />
           {experiences.map((exp, idx) => (
             <Reveal key={idx} delay={idx * 120} className="relative group">
 
               {/* Glowing Timeline Dot */}
-              <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-950 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.6)]" />
+              <motion.div
+                className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-slate-100 dark:bg-slate-950 border-2 border-indigo-500 group-hover:bg-indigo-500 transition-colors duration-300 shadow-[0_0_15px_rgba(99,102,241,0.6)]"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 400, damping: 15, delay: 0.3 + idx * 0.15 }}
+              />
 
               {/* Experience Card */}
-              <div className="bg-slate-50 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 sm:p-8 hover:border-indigo-500/40 hover:bg-slate-100 dark:hover:bg-slate-900/70 transition-all duration-300 shadow-xl group-hover:-translate-y-1">
+              <motion.div
+                className="bg-slate-50 dark:bg-slate-900/40 backdrop-blur-md border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 sm:p-8 hover:border-indigo-500/40 hover:bg-slate-100 dark:hover:bg-slate-900/70 transition-colors duration-300 shadow-xl"
+                whileHover={{ y: -4, x: 4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              >
 
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -91,18 +114,23 @@ export default function Experience() {
                     Technologies Used
                   </span>
                   <div className="flex flex-wrap gap-2">
-                    {exp.techStack.map((tech) => (
-                      <span
+                    {exp.techStack.map((tech, i) => (
+                      <motion.span
                         key={tech}
-                        className="text-xs font-medium px-3 py-1.5 bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-300/60 dark:border-slate-700/60 hover:text-slate-900 dark:hover:text-white hover:border-indigo-500/50 hover:bg-indigo-100 dark:hover:bg-indigo-950/30 transition duration-200"
+                        initial={{ opacity: 0, y: 8 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 + i * 0.05 }}
+                        whileHover={{ scale: 1.08, y: -2 }}
+                        className="text-xs font-medium px-3 py-1.5 bg-slate-200/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 rounded-lg border border-slate-300/60 dark:border-slate-700/60 hover:text-slate-900 dark:hover:text-white hover:border-indigo-500/50 hover:bg-indigo-100 dark:hover:bg-indigo-950/30 transition-colors duration-200"
                       >
                         {tech}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
 
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>
