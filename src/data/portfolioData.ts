@@ -17,6 +17,13 @@ export const portfolioData = {
   ],
   projects: [
     {
+      title: "AutoParts POS",
+      description: "Full-stack point-of-sale and inventory system for a vehicle spare parts shop, with role-based access, invoicing, stock tracking, returns and sales/profit reports.",
+      tags: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "NextAuth", "Tailwind CSS"],
+      github: "https://github.com/kavitharangani/vehicle-parts-shop",
+      demo: ""
+    },
+    {
       title: "MyPortfolio Web Design",
       description: "Personal portfolio website design project showcasing profile, skills, and work in a clean, responsive layout.",
       tags: ["HTML", "CSS", "JavaScript"],
