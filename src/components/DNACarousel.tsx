@@ -41,6 +41,7 @@ interface DNACarouselProps<T> {
 // With few items the loop looks sparse, so short lists are repeated to fill the helix.
 const MIN_SLOTS = 8;
 const VISIBLE_RANGE = 3.2;
+const MAX_DOTS = 10;
 
 const wrap = (v: number, total: number) => ((v % total) + total) % total;
 // Signed distance of a slot from the centre, wrapped to [-total/2, total/2).
@@ -354,6 +355,16 @@ export default function DNACarousel<T>({
           ←
         </motion.button>
 
+        {n > MAX_DOTS ? (
+          // Too many items for dots (they'd overflow on phones): show a progress bar instead.
+          <div className="relative h-1.5 w-28 sm:w-40 rounded-full bg-slate-300 dark:bg-slate-700 overflow-hidden">
+            <motion.span
+              className="absolute inset-y-0 left-0 rounded-full bg-indigo-500"
+              animate={{ width: `${((activeIndex + 1) / n) * 100}%` }}
+              transition={{ type: "spring", stiffness: 200, damping: 30 }}
+            />
+          </div>
+        ) : (
         <div className="flex items-center gap-2">
           {items.map((item, i) => (
             <button
@@ -374,6 +385,7 @@ export default function DNACarousel<T>({
             </button>
           ))}
         </div>
+        )}
 
         <span className="text-xs font-mono tabular-nums text-slate-500 dark:text-slate-400 w-12 text-center">
           {String(activeIndex + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
