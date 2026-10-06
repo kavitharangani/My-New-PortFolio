@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { AnimatePresence, motion, useInView, type Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import Reveal from "./Reveal";
 
@@ -13,6 +13,139 @@ const field: Variants = {
   hidden: { opacity: 0, x: -16 },
   show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 };
+
+const headerContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.15 } },
+};
+
+const badge: Variants = {
+  hidden: { opacity: 0, y: -20, scale: 0.8 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 300, damping: 18 } },
+};
+
+const headingLetters: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.045 } },
+};
+
+const letter: Variants = {
+  hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
+
+const touchWord: Variants = {
+  hidden: { opacity: 0, x: 40, rotate: 6 },
+  show: { opacity: 1, x: 0, rotate: 0, transition: { type: "spring", stiffness: 200, damping: 16 } },
+};
+
+const underline: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  show: { pathLength: 1, opacity: 1, transition: { delay: 0.35, duration: 0.8, ease: "easeInOut" } },
+};
+
+const plane: Variants = {
+  hidden: { opacity: 0, x: -160, y: 50, rotate: 25 },
+  show: {
+    opacity: [0, 1, 1, 0],
+    x: [-160, -20, 120, 260],
+    y: [50, 0, -30, -80],
+    rotate: [25, 5, -10, -25],
+    transition: { duration: 2, ease: "easeInOut", delay: 0.3 },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
+
+function ContactHeader() {
+  const ref = useRef<HTMLDivElement>(null);
+  // Not `once`: replays every time the section scrolls back into view.
+  const inView = useInView(ref, { amount: 0.6 });
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={headerContainer}
+      initial="hidden"
+      animate={inView ? "show" : "hidden"}
+      className="relative text-center space-y-4 mb-12"
+    >
+      <motion.span
+        variants={badge}
+        className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20"
+      >
+        <motion.span
+          aria-hidden="true"
+          animate={{ rotate: [0, -15, 15, -10, 0] }}
+          transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
+        >
+          ✉
+        </motion.span>
+        Let&apos;s Connect
+      </motion.span>
+
+      <div className="relative">
+        {/* Paper plane flying across the heading */}
+        <motion.span
+          variants={plane}
+          className="pointer-events-none absolute left-1/2 top-0 text-2xl sm:text-3xl"
+          aria-hidden="true"
+        >
+          ✈️
+        </motion.span>
+
+        <motion.h2
+          variants={headingLetters}
+          aria-label="Get In Touch"
+          className="text-3xl sm:text-5xl font-extrabold tracking-tight"
+        >
+          {["Get", "In"].map((word) => (
+            <span key={word} aria-hidden="true" className="inline-block whitespace-nowrap mr-[0.25em]">
+              {word.split("").map((char, i) => (
+                <motion.span key={i} variants={letter} className="inline-block">
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+          ))}
+          <motion.span
+            variants={touchWord}
+            aria-hidden="true"
+            className="relative inline-block text-indigo-600 dark:text-indigo-400"
+          >
+            Touch
+            {/* Hand-drawn underline */}
+            <svg
+              className="absolute left-0 -bottom-2 sm:-bottom-3 w-full h-3 sm:h-4 overflow-visible"
+              viewBox="0 0 200 16"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <motion.path
+                d="M3 11 C 40 3, 80 3, 110 8 S 170 14, 197 5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="round"
+                variants={underline}
+              />
+            </svg>
+          </motion.span>
+        </motion.h2>
+      </div>
+
+      <motion.p
+        variants={fadeUp}
+        className="text-slate-600 dark:text-slate-400 max-w-md mx-auto text-sm sm:text-base pt-2"
+      >
+        Feel free to reach out if you want to collaborate, have a question, or just want to connect.
+      </motion.p>
+    </motion.div>
+  );
+}
 
 const WEB3FORMS_ACCESS_KEY = "2a85620e-d829-4d90-92c7-b302605c92ee";
 
@@ -58,17 +191,7 @@ const Contact = () => {
   return (
     <section id="contact" className="py-24 px-6 max-w-3xl mx-auto border-t border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white transition-colors duration-300">
       {/* Header */}
-      <Reveal className="text-center space-y-4 mb-12">
-        <span className="text-xs font-bold tracking-widest text-indigo-600 dark:text-indigo-400 uppercase bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20">
-          Let&apos;s Connect
-        </span>
-        <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-          Get In <span className="text-indigo-600 dark:text-indigo-400">Touch</span>
-        </h2>
-        <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto text-sm sm:text-base">
-          Feel free to reach out if you want to collaborate, have a question, or just want to connect.
-        </p>
-      </Reveal>
+      <ContactHeader />
 
       {/* Form */}
       <Reveal delay={150}>
