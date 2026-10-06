@@ -95,8 +95,8 @@ export default function Experience() {
                     )}
                     <span className={`text-xs font-medium px-3.5 py-1.5 rounded-full border ${
                       exp.isCurrent 
-                        ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" 
-                        : "bg-indigo-500/10 text-indigo-300 border-indigo-500/20"
+                        ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30" 
+                        : "bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20"
                     }`}>
                       {exp.period}
                     </span>

@@ -56,7 +56,7 @@ function StackCard({
       >
         {/* Content */}
         <div className="relative p-7 sm:p-10 flex flex-col">
-          <div className="flex items-center gap-3 text-xs font-semibold tracking-widest uppercase text-slate-400 dark:text-slate-500">
+          <div className="flex items-center gap-3 text-xs font-semibold tracking-widest uppercase text-slate-500">
             <span className={`text-base font-black tabular-nums ${theme.accent}`}>
               {String(index + 1).padStart(2, "0")}
             </span>
@@ -106,7 +106,7 @@ function StackCard({
                 Live Demo
               </motion.a>
             ) : (
-              <span className="text-xs text-slate-400 dark:text-slate-500">No live demo</span>
+              <span className="text-xs text-slate-500">No live demo</span>
             )}
           </div>
         </div>

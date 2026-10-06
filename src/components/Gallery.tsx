@@ -206,7 +206,7 @@ export default function Gallery() {
                     <p className="text-slate-600 dark:text-slate-400 text-sm max-w-md mx-auto">
                       {activeItem.description}
                     </p>
-                    <p className="text-[11px] uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                    <p className="text-[11px] uppercase tracking-widest text-slate-500">
                       Drag, swipe or use ← → keys · Click to view
                     </p>
                   </motion.div>

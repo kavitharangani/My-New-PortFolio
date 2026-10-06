@@ -300,7 +300,7 @@ export default function Skill() {
                       {group.icon}
                     </span>
                     <div>
-                      <span className="text-xs font-mono text-slate-400">
+                      <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
                         {String(active + 1).padStart(2, "0")} / {String(skillCategories.length).padStart(2, "0")}
                       </span>
                       <h3 className="text-xl sm:text-2xl font-bold">{group.category}</h3>
