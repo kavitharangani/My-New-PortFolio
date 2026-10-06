@@ -1,7 +1,18 @@
 "use client";
 
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import Reveal from "./Reveal";
+
+const fieldContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
+};
+
+const field: Variants = {
+  hidden: { opacity: 0, x: -16 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
 
 const WEB3FORMS_ACCESS_KEY = "2a85620e-d829-4d90-92c7-b302605c92ee";
 
@@ -61,9 +72,13 @@ const Contact = () => {
 
       {/* Form */}
       <Reveal delay={150}>
-        <form
+        <motion.form
           ref={form}
           onSubmit={sendEmail}
+          variants={fieldContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
           className="space-y-6 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-md"
         >
           {/* Web3Forms access key - routes every submission to tharanganikavi08@gmail.com */}
@@ -73,7 +88,7 @@ const Contact = () => {
           <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
           {/* Name */}
-          <div className="space-y-2">
+          <motion.div variants={field} className="space-y-2">
             <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
               Your Name
             </label>
@@ -84,10 +99,10 @@ const Contact = () => {
               required
               className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
             />
-          </div>
+          </motion.div>
 
           {/* Email */}
-          <div className="space-y-2">
+          <motion.div variants={field} className="space-y-2">
             <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
               Your Email
             </label>
@@ -98,10 +113,10 @@ const Contact = () => {
               required
               className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
             />
-          </div>
+          </motion.div>
 
           {/* Subject */}
-          <div className="space-y-2">
+          <motion.div variants={field} className="space-y-2">
             <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
               Subject
             </label>
@@ -112,10 +127,10 @@ const Contact = () => {
               required
               className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition"
             />
-          </div>
+          </motion.div>
 
           {/* Message */}
-          <div className="space-y-2">
+          <motion.div variants={field} className="space-y-2">
             <label className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
               Your Message
             </label>
@@ -126,13 +141,16 @@ const Contact = () => {
               required
               className="w-full px-4 py-3 bg-white dark:bg-slate-950/60 border border-slate-300 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition resize-none"
             ></textarea>
-          </div>
+          </motion.div>
 
           {/* Submit Button */}
-          <button
+          <motion.button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white rounded-xl font-semibold transition duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:hover:scale-100"
+            variants={field}
+            whileHover={loading ? undefined : { scale: 1.02, boxShadow: "0 0 30px rgba(99,102,241,0.5)" }}
+            whileTap={loading ? undefined : { scale: 0.98 }}
+            className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 text-white rounded-xl font-semibold transition-colors duration-300 shadow-[0_0_20px_rgba(99,102,241,0.3)] cursor-pointer"
           >
             {loading ? (
               <span className="inline-flex items-center justify-center gap-2">
@@ -142,21 +160,27 @@ const Contact = () => {
             ) : (
               "Send Message"
             )}
-          </button>
+          </motion.button>
 
           {/* Status Notification */}
+          <AnimatePresence>
           {statusMessage && (
-            <p
-              className={`text-center text-sm mt-4 animate-fade-in-up ${
+            <motion.p
+              key={statusMessage}
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10 }}
+              className={`text-center text-sm mt-4 ${
                 statusMessage.includes("successfully")
                   ? "text-emerald-400"
                   : "text-rose-400"
               }`}
             >
               {statusMessage}
-            </p>
+            </motion.p>
           )}
-        </form>
+          </AnimatePresence>
+        </motion.form>
       </Reveal>
     </section>
   );
