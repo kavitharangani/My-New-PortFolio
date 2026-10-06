@@ -5,67 +5,64 @@ import { useState } from "react";
 import Reveal from "./Reveal";
 import DNACarousel from "./DNACarousel";
 
+import personal1 from "../image/gallery/personal1.jpg";
+import personal2 from "../image/gallery/personal2.jpg";
+import personal3 from "../image/gallery/personal3.jpg";
+import personal4 from "../image/gallery/personal4.jpg";
+import personal5 from "../image/gallery/personal5.jpg";
+import personal6 from "../image/gallery/personal6.jpg";
+import personal7 from "../image/gallery/personal7.jpg";
+import personal8 from "../image/gallery/personal8.jpg";
+import personal9 from "../image/gallery/personal9.jpg";
+import family1 from "../image/gallery/family1.jpg";
+import family2 from "../image/gallery/family2.jpg";
+import family3 from "../image/gallery/family3.jpg";
+import family4 from "../image/gallery/family4.jpg";
+import friend1 from "../image/gallery/friend1.jpg";
+import friend2 from "../image/gallery/friend2.jpg";
+import friend3 from "../image/gallery/friend3.jpg";
+import friend4 from "../image/gallery/friend4.jpg";
+import event1 from "../image/gallery/event1.jpg";
+
+type Category = "Personal" | "Family" | "Friends" | "Events";
+
 interface GalleryItem {
   id: number;
   title: string;
-  category: "Certificates" | "Events" | "Hackathons" | "Projects" | "Personal" | "Family" | "Friends";
+  category: Category;
   imageUrl: string;
   description: string;
 }
+
+// To add a photo: put a resized copy in src/image/gallery/, import it above and add a row here.
+const galleryItems: GalleryItem[] = [
+  { image: personal1, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal2, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal3, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal4, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal5, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal6, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal7, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal8, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: personal9, category: "Personal", title: "Personal Moments", description: "A moment from my own story." },
+  { image: family1, category: "Family", title: "Family Time", description: "Precious time with the people who matter most." },
+  { image: family2, category: "Family", title: "Family Time", description: "Precious time with the people who matter most." },
+  { image: family3, category: "Family", title: "Family Time", description: "Precious time with the people who matter most." },
+  { image: family4, category: "Family", title: "Family Time", description: "Precious time with the people who matter most." },
+  { image: friend1, category: "Friends", title: "With Friends", description: "Good times and great memories with friends." },
+  { image: friend2, category: "Friends", title: "With Friends", description: "Good times and great memories with friends." },
+  { image: friend3, category: "Friends", title: "With Friends", description: "Good times and great memories with friends." },
+  { image: friend4, category: "Friends", title: "With Friends", description: "Good times and great memories with friends." },
+  { image: event1, category: "Events", title: "Event Day", description: "Capturing a special event." },
+].map((item, i) => ({ id: i + 1, title: item.title, category: item.category as Category, imageUrl: item.image.src, description: item.description }));
+
+// Filter tabs: "All" plus every category that has at least one photo, in order of first appearance.
+const categories = ["All", ...Array.from(new Set(galleryItems.map((item) => item.category)))];
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activeImage, setActiveImage] = useState<GalleryItem | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // Gallery Data (ඔබේ Photos එකතු කරගන්න)
-  const galleryItems: GalleryItem[] = [
-    {
-      id: 1,
-      title: "Family Trip to Nuwara Eliya",
-      category: "Family",
-      imageUrl: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=800", // ඔබේ photo path එක දාන්න (eg: /images/family1.jpg)
-      description: "A memorable vacation with family."
-    },
-    {
-      id: 2,
-      title: "University Friends Outing",
-      category: "Friends",
-      imageUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=800",
-      description: "Weekend getaway with batchmates."
-    },
-    {
-      id: 3,
-      title: "Spring Boot Certification",
-      category: "Certificates",
-      imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800",
-      description: "Successfully completed advanced backend development certification."
-    },
-    {
-      id: 4,
-      title: "Solo Travel Adventure",
-      category: "Personal",
-      imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=800",
-      description: "Exploring nature and taking a break from code."
-    },
-    {
-      id: 5,
-      title: "Hackathon Winner",
-      category: "Hackathons",
-      imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
-      description: "Secured 1st place in the university annual hackathon."
-    },
-    {
-      id: 6,
-      title: "Tech Conference 2024",
-      category: "Events",
-      imageUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800",
-      description: "Attended tech meetup as a speaker."
-    }
-  ];
-
-  // Category Filter Tabs
-  const categories = ["All", "Personal", "Family", "Friends", "Certificates", "Hackathons", "Events"];
 
   const filteredItems = selectedCategory === "All"
     ? galleryItems
