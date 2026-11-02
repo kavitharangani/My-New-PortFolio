@@ -12,6 +12,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
+import { portfolioData } from "@/data/portfolioData";
 import aboutImg from "../image/about-optimized.jpg";
 import Reveal from "./Reveal";
 
@@ -19,16 +20,51 @@ import Reveal from "./Reveal";
 const story: { text: string; strong?: boolean }[] = [
   { text: "Hi, I'm" },
   { text: "Kavindya Tharangani,", strong: true },
-  { text: "a passionate Full-Stack Software Engineer with hands-on experience designing and developing real-world web applications. I have completed internships at" },
+  { text: "a passionate Full-Stack Software Engineer with hands-on experience designing and developing real-world web applications. I completed an internship at" },
   { text: "HCode Solution", strong: true },
-  { text: "and" },
+  { text: "and am now interning at" },
   { text: "BizSoft Software Solutions,", strong: true },
-  { text: "where I worked on building scalable, user-focused software and gained practical experience across the full development lifecycle." },
+  { text: "building scalable, user-focused software and gaining practical experience across the full development lifecycle." },
 ];
 
 const words = story.flatMap((seg) => seg.text.split(" ").map((word) => ({ word, strong: !!seg.strong })));
 
 const cvHref = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/cv.pdf`;
+
+const highlights = [
+  { value: "2", label: "Internships" },
+  { value: String(portfolioData.projects.length), label: "Featured projects" },
+  { value: "IJSE", label: "Software Engineering" },
+];
+
+const expertise = ["Java", "Spring Boot", "Angular", "React", "Next.js", "NestJS", "MERN Stack", "Machine Learning"];
+
+// Stat card with a soft spotlight that follows the pointer.
+function HighlightCard({ value, label }: { value: string; label: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const spotlight = useMotionTemplate`radial-gradient(140px circle at ${x}px ${y}px, rgba(99,102,241,0.22), transparent 70%)`;
+
+  return (
+    <motion.div
+      whileHover={{ y: -4 }}
+      onPointerMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        x.set(e.clientX - rect.left);
+        y.set(e.clientY - rect.top);
+      }}
+      className="group relative h-full rounded-2xl p-3.5 sm:p-5 overflow-hidden bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 shadow-sm transition-colors duration-300"
+    >
+      <motion.div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: spotlight }}
+        aria-hidden="true"
+      />
+      <p className="relative text-2xl sm:text-4xl font-black tracking-tight text-indigo-600 dark:text-indigo-400">{value}</p>
+      <p className="relative mt-1.5 text-xs sm:text-sm font-medium leading-snug text-slate-600 dark:text-slate-400">{label}</p>
+    </motion.div>
+  );
+}
 
 function Word({
   children,
@@ -69,7 +105,7 @@ function TiltPhoto() {
   return (
     <motion.div
       ref={wrapRef}
-      className="relative w-60 h-80 sm:w-72 sm:h-96 [perspective:1000px]"
+      className="relative w-64 h-[21rem] sm:w-80 sm:h-[26rem] [perspective:1000px]"
       onPointerMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         px.set((e.clientX - rect.left) / rect.width - 0.5);
@@ -91,6 +127,21 @@ function TiltPhoto() {
           aria-hidden="true"
         />
 
+        {/* Slowly turning gradient ring, shown once the photo has wiped in so it never reads as an empty card */}
+        <motion.div
+          className="absolute -inset-[3px] rounded-[31px] overflow-hidden"
+          aria-hidden="true"
+          initial={{ opacity: 0 }}
+          animate={revealed ? { opacity: 1 } : undefined}
+          transition={{ duration: 0.6, delay: 1 }}
+        >
+          <motion.div
+            className="absolute -inset-1/2 bg-[conic-gradient(from_0deg,#6366f1,#a855f7,#22d3ee,#6366f1)]"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          />
+        </motion.div>
+
         {/* Photo, revealed with a wipe as it scrolls into view */}
         <motion.div
           className="relative w-full h-full rounded-[28px] overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/20 bg-slate-200 dark:bg-slate-800"
@@ -109,7 +160,7 @@ function TiltPhoto() {
               alt="Kavindya Tharangani"
               fill
               className="object-cover"
-              sizes="(min-width: 640px) 288px, 240px"
+              sizes="(min-width: 640px) 320px, 256px"
             />
           </motion.div>
           <motion.div className="absolute inset-0 pointer-events-none" style={{ background: glare }} />
@@ -181,16 +232,17 @@ export default function About() {
           </h2>
         </Reveal>
 
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-14 md:gap-16">
-          <div className="shrink-0 pt-2">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-14 lg:gap-20">
+          {/* Left padding keeps the overhanging badge inside the page */}
+          <div className="shrink-0 lg:pl-10 lg:sticky lg:top-28">
             <TiltPhoto />
           </div>
 
-          <div className="flex-1 space-y-8">
+          <div className="flex-1 min-w-0 w-full space-y-8">
             {/* Words light up as the paragraph scrolls through the viewport */}
             <p
               ref={textRef}
-              className="text-xl sm:text-2xl leading-relaxed font-medium text-slate-800 dark:text-slate-100 flex flex-wrap"
+              className="text-lg lg:text-xl leading-relaxed font-medium text-slate-800 dark:text-slate-100 flex flex-wrap"
             >
               {words.map((w, i) => (
                 <Word
@@ -204,27 +256,31 @@ export default function About() {
               ))}
             </p>
 
-            <Reveal delay={100}>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                My technical expertise includes{" "}
-                {["Java", "Spring Boot", "Angular", "React", "Next.js", "NestJS", "the MERN Stack", "Machine Learning"].map(
-                  (tech, i, arr) => (
-                    <span key={tech}>
-                      <motion.span
-                        whileHover={{ y: -2 }}
-                        className="inline-block font-medium text-slate-900 dark:text-white underline decoration-indigo-500/40 decoration-2 underline-offset-4 hover:decoration-indigo-500 transition-colors"
-                      >
-                        {tech}
-                      </motion.span>
-                      {i < arr.length - 2 ? ", " : i === arr.length - 2 ? ", and " : "."}
-                    </span>
-                  )
-                )}
-              </p>
+            <Reveal delay={100} className="grid grid-cols-3 gap-2.5 sm:gap-4">
+              {highlights.map((item) => (
+                <HighlightCard key={item.label} {...item} />
+              ))}
+            </Reveal>
+
+            <Reveal delay={150} className="space-y-3">
+              <h3 className="text-xs font-bold tracking-widest uppercase text-slate-500 dark:text-slate-400">
+                Technical expertise
+              </h3>
+              <ul className="flex flex-wrap gap-2">
+                {expertise.map((tech) => (
+                  <motion.li
+                    key={tech}
+                    whileHover={{ y: -2 }}
+                    className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 hover:border-indigo-500/60 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                  >
+                    {tech}
+                  </motion.li>
+                ))}
+              </ul>
             </Reveal>
 
             {/* Download CV with a sweeping sheen */}
-            <Reveal delay={150}>
+            <Reveal delay={200} className="flex flex-wrap items-center gap-3">
               <motion.a
                 href={cvHref}
                 download="Kavindya_Tharangani_CV.pdf"
@@ -247,6 +303,14 @@ export default function About() {
                 >
                   ↓
                 </motion.span>
+              </motion.a>
+              <motion.a
+                href="#contact"
+                className="inline-flex items-center px-7 py-3.5 rounded-xl font-semibold text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:border-indigo-500/60 transition-colors duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Get in touch
               </motion.a>
             </Reveal>
           </div>
