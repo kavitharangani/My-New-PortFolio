@@ -17,6 +17,27 @@ export const portfolioData = {
   ],
   projects: [
     {
+      title: "Playbox",
+      description: "A web game app with 28 games grouped by age, with search and category filters, leaderboards, multiple players on one device, five color themes and offline play.",
+      tags: ["React", "Vite", "React Router"],
+      github: "https://github.com/kavitharangani/playbox",
+      demo: "https://kavitharangani.github.io/playbox/"
+    },
+    {
+      title: "Doctor Channeling App",
+      description: "Doctor appointment system for patients, doctors and admins, with channeling centres, session booking, queue numbers, prescriptions and a public live queue page.",
+      tags: ["React", "Vite", "Node.js", "Express", "JWT"],
+      github: "https://github.com/kavitharangani/doctor-channeling-app",
+      demo: ""
+    },
+    {
+      title: "FitPlan",
+      description: "Health and gym system that calculates BMI and builds a personalized 7-day Sri Lankan diet plan, weekly workout schedule, daily timetable and progress chart.",
+      tags: ["HTML", "CSS", "JavaScript", "Motion"],
+      github: "https://github.com/kavitharangani/fitplan",
+      demo: "https://kavitharangani.github.io/fitplan/"
+    },
+    {
       title: "AutoParts POS",
       description: "Full-stack point-of-sale and inventory system for a vehicle spare parts shop, with role-based access, invoicing, stock tracking, returns and sales/profit reports.",
       tags: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "NextAuth", "Tailwind CSS"],
